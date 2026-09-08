@@ -4,6 +4,9 @@ import Carrusel from './Carrusel.vue';
 import controles1 from '../assets/controles1.png';
 import controles2 from '../assets/controles2.png';
 import controles3 from '../assets/controles3.png';
+import opisilk1 from '../assets/opisilk1.png';
+import opisilk2 from '../assets/opisilk2.png';
+import opisilk3 from '../assets/opsilk3.png';
 
 const activeCardSection = ref<'batallas' | 'historia' | 'controles' | 'opiniones'>('batallas');
 
@@ -72,6 +75,23 @@ const carouselImages3 = [
   },
 
 ];
+
+const carouselImages4 = [
+  {
+    src: opisilk1,
+    alt: 'Opinión 1',
+  },
+  {
+    src: opisilk2,
+    alt: 'Opinión 2',
+  },
+  {
+    src: opisilk3,
+    alt: 'Opinión 3',
+  },
+];
+
+
 </script>
 
 <template>
@@ -95,7 +115,7 @@ const carouselImages3 = [
         role="tab"
         @click="activeCardSection = 'batallas'"
       >
-        Batallas
+        ⚔️ Batallas
       </button>
     
       <button
@@ -106,7 +126,7 @@ const carouselImages3 = [
         role="tab"
         @click="activeCardSection = 'historia'"
       >
-        Historia
+        📖 Historia
       </button>
 
       <button
@@ -117,7 +137,7 @@ const carouselImages3 = [
         role="tab"
         @click="activeCardSection = 'controles'"
       >
-        Controles
+        🎮 Controles
       </button>
 
         <button
@@ -128,7 +148,7 @@ const carouselImages3 = [
         role="tab"
         @click="activeCardSection = 'opiniones'"
         >
-        Opiniones
+        💭 Opiniones
         </button>
         </div>
 
@@ -157,19 +177,22 @@ const carouselImages3 = [
 
     <div v-if="activeCardSection === 'historia'" class="card-content" role="tabpanel">
       <div class="color2 title-center">
-        <h2>Historia</h2>
+        <h2>Historia </h2>
       </div>
       <div class="text-left color2">
         <p>Hornet se encuentra cautiva en el reino desconocido y mordaz de Telalejana, del cual se dice que está embrujado por La Gran Madre Seda. Hornet debe subir hasta la superficie, una ciudadela brillante, para descubrir por qué fue llevada a ese misterioso lugar. </p>
         <p>Al comienzo del juego, Hornet es emboscada y alejada de su hogar, despierta prisionera en una tierra extraña. Para recuperar su libertad y descubrir los motivos de su captura, Hornet debe abrirse paso luchando y ascender desde las profundidades del reino hasta la imponente Ciudadela ubicada en la cima.</p>
         <p> El reino está dominado por una entidad superior conocida como la Gran Madre Seda, un ser pálido similar al Rey Pálido o a Radiance de la entrega anterior, esta diosa usa su poderosa seda ligada al alma de los insectos para someter a los habitantes y peregrinos de Telalejana. Muchos pierden la razón debido a este embrujo y atacan a otros.</p>
         <p> En el pasado, la Gran Madre Seda transformó a criaturas menores en las primeras tejedoras para construir su civilización y la gran Ciudadela.</p>
+      
       </div>
+
+      
     </div>
 
     <div v-if="activeCardSection === 'controles'" class="card-content" role="tabpanel">
       <div class="color2 title-center">
-        <h2>Controles</h2>
+        <h2>Controles </h2>
       </div>
       <div class="text-left color2">
         <p>Dependiendo de si se está usando teclado o control cambia la asignación de botones. De igual manera puede diferir si es un control de Xbox, PlayStation o Nintendo Switch.</p>
@@ -184,6 +207,7 @@ const carouselImages3 = [
       <div class="text-left color2">
         <p>Silksong ha sido elogiado por su jugabilidad, diseño de niveles y banda sonora, consolidando su lugar como un título destacado en el género metroidvania.</p>
       </div>
+      <Carrusel :images="carouselImages4" />
     </div>
   </article>
 </div>

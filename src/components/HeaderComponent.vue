@@ -41,7 +41,7 @@ nav button {
 }
 
 nav button:hover {
-  background: rgba(110, 124, 196, 0.24);
+  background: rgba(211, 66, 66, 0.692);
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(125, 211, 252, 0.18);

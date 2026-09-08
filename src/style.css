@@ -339,7 +339,7 @@ code {
 }
 
 .color3{
-  color:rgb(255, 52, 86);
+  color:rgb(0, 0, 0);
 }
 
 .img-corner0 {
@@ -379,6 +379,16 @@ body {
   background-attachment: fixed;
 }
 
+.game-fade-enter-active,
+.game-fade-leave-active {
+  transition:all 0.5s ease;
+}
+
+.game-fade-enter-from,
+.game-fade-leave-to {
+  opacity: 0;
+}
+
 .game-video {
   position: fixed;
   inset: 0;
@@ -390,6 +400,10 @@ body {
 
 .background-SF3S {
   background-image: url('https://i.redd.it/aen4hd6oq92f1.gif');
+}
+
+.background-Splatoon {
+  background-image: url('https://images6.alphacoders.com/779/779018.png');
 }
 
 .game-background > :not(.game-video) {

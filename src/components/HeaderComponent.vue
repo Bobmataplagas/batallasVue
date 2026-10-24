@@ -7,11 +7,11 @@ const emit = defineEmits<{
 <template>
     <header>
         <nav>
-            <ul>
-              <li><button type="button" @click="emit('selectSection', 'Silksong')">Silksong</button></li>
-              <li><button type="button" @click="emit('selectSection', 'SF3S')">Street Fighter III: Third Strike</button></li>
-              <li><button type="button" @click="emit('selectSection', 'Splatoon')">Splatoon 3</button></li>
-            </ul>
+            <div class="section-buttons">
+              <button type="button" @click="emit('selectSection', 'Silksong')">Silksong</button>
+              <button type="button" @click="emit('selectSection', 'SF3S')">Street Fighter III: Third Strike</button>
+              <button type="button" @click="emit('selectSection', 'Splatoon')">Splatoon 3</button>
+            </div>
         </nav>
     </header>
 </template>
@@ -22,29 +22,39 @@ header {
   margin-bottom: 4%;
 }
 
-nav ul {
+.section-buttons {
   display: flex;
-  gap: 2%;
+  gap: 0.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  padding-inline: clamp(1rem, 3vw, 2rem);
 }
 
 nav button {
-  display: inline-block;
-  padding: 10px 10px 10px;
+  flex: 0 1 auto;
+  padding: 0.625rem 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
-  background: rgba(161, 161, 161, 0.397);
-  color: #000000;
+  background: rgba(161, 161, 161, 0.815);
+  color: #ffffff;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-weight: 600;
 }
 
 nav button:hover {
-  background: rgba(246, 250, 0, 0.692);
-  border-color: rgba(111, 2, 253, 0.5);
+  background: rgba(250, 0, 62, 0.692);
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(255, 255, 255, 0.068);
+}
+
+@media (max-width: 480px) {
+  .section-buttons {
+    justify-content: stretch;
+  }
+
+  nav button {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
 }
 </style>

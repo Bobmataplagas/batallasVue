@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { RouterView } from 'vue-router';
+import Navbar from './components/Navbar.vue';
+
 import HeaderComponent from './components/HeaderComponent.vue';
 import Silksong from './components/Silksong.vue';
 import StreetFighter from './components/StreetFighter.vue';
@@ -10,6 +13,9 @@ const activeSection = ref<'Silksong' | 'SF3S' | 'Splatoon'>('Silksong');
 </script>
 
 <template>
+  <Navbar />
+  <RouterView />
+  <!--
   <div class="game-background" :class="`background-${activeSection}`">
     <video
       v-if="activeSection === 'Silksong'"
@@ -21,7 +27,7 @@ const activeSection = ref<'Silksong' | 'SF3S' | 'Splatoon'>('Silksong');
       playsinline
     ></video>
 
-    <h1 class="title-center color2">Batallas de videojuegos</h1>
+    <div class="spacer" aria-hidden="true"></div>
     <HeaderComponent @select-section="activeSection = $event" />
 
     <section v-if="activeSection === 'Silksong'" id="" class="seccion">
@@ -36,4 +42,12 @@ const activeSection = ref<'Silksong' | 'SF3S' | 'Splatoon'>('Silksong');
       <Splatoon />
     </section>
   </div>
+  -->
 </template>
+
+<style scoped>
+.spacer {
+  height: 2rem; /* Ajusta el espacio */
+  flex: 0 0 auto;
+}
+</style>

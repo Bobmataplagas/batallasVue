@@ -1,6 +1,6 @@
 <template>
     <div v-if="itsMine" class="flex justify-end">
-        <div class="bg-blue-200 text-black p-2 rounded-lg max-w-xs">
+        <div class="chat-bubble bg-blue-200 text-black p-2 rounded-lg max-w-xs">
             {{ message }}
             <img
                 v-if="image"
@@ -13,7 +13,7 @@
 
     <!-- Example Received Message -->
     <div v-else class="flex">
-        <div class="bg-gray-300 text-black p-2 rounded-lg max-w-xs">
+        <div class="chat-bubble bg-gray-300 text-black p-2 rounded-lg max-w-xs">
             {{ message }}
             <img
             v-if="image"
@@ -24,6 +24,12 @@
         </div> 
     </div>
 </template>
+<style scoped>
+.chat-bubble {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+}
+</style>
 <script setup lang="ts">
     interface Props {
         message: string;

@@ -3,18 +3,17 @@ import { ref } from 'vue';
 import { RouterView } from 'vue-router';
 import Navbar from './components/Navbar.vue';
 
-import HeaderComponent from './components/HeaderComponent.vue';
-import Silksong from './components/Silksong.vue';
-import StreetFighter from './components/StreetFighter.vue';
-import silksongBackground from './assets/hornet bench.mp4';
-import Splatoon from './components/Splatoon.vue';
+import Ayudaview from './views/Ayudaview.vue';
 
-const activeSection = ref<'Silksong' | 'SF3S' | 'Splatoon'>('Silksong');
+const showHelp = ref(false);
 </script>
 
 <template>
-  <Navbar />
+  <Navbar @toggle-help="showHelp = !showHelp" />
   <RouterView />
+  <div v-if="showHelp" class="help-backdrop" @click.self="showHelp = false">
+    <Ayudaview @close="showHelp = false" />
+  </div>
   <!--
   <div class="game-background" :class="`background-${activeSection}`">
     <video
@@ -46,6 +45,17 @@ const activeSection = ref<'Silksong' | 'SF3S' | 'Splatoon'>('Silksong');
 </template>
 
 <style scoped>
+.help-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.55);
+}
+
 .spacer {
   height: 2rem; /* Ajusta el espacio */
   flex: 0 0 auto;

@@ -28,4 +28,4 @@ export const plans: plan [] = [
         price: 499,
         features: ['Acceso premium', 'Hasta 5 jugadores', 'Soporte prioritario 24/7']
     }
- ] as const
+] as const

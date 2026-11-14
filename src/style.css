@@ -176,6 +176,14 @@ code {
   box-sizing: border-box;
 }
 
+html body #app:has(.site-footer) {
+  height: 100svh;
+  min-height: 100svh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-attachment: fixed;
+}
+
 #center {
   display: flex;
   flex-direction: column;

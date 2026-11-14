@@ -3,6 +3,7 @@ import { useCarrito, type productoCarrito } from '@/composables/useCarrito.ts'
 import ConsoleButtons from '@/components/ConsoleButtons.vue'
 import type { game } from '@/interfaces/games.interface.ts'
 import useStoreGames from '@/composables/storeGames.ts'
+import carritoIcon from '@/assets/images/carrito.png'
 
 const {
     activeSection,
@@ -20,6 +21,7 @@ const {
     totalOrdenes,
     agregarProducto,
     quitarProducto,
+    vaciarCarrito,
 } = useCarrito()
 
 const tieneProducto = (gameId: string) => carrito.value.some((producto) => producto.id === gameId)
@@ -37,9 +39,11 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
                 <aside class="cart-summary" aria-label="Resumen del carrito">
                     <p>Compras <strong>{{ totalCompras }} orden(es)</strong></p>
                     <p>Rentas <strong>{{ totalRentas }} orden(es)</strong></p>
-                    <hr />
-                    <p>Todas las órdenes <strong>{{ totalOrdenes }} orden(es)</strong></p>
-                    <p class="cart-total">Total a pagar <strong>${{ precioTotal }} MXN</strong></p>
+                    <p class="cart-total">
+                        <img :src="carritoIcon" alt="Carrito" />
+                        <strong>${{ precioTotal }} MXN</strong>
+                        <button type="button" @click="vaciarCarrito">Pagar</button>
+                    </p>
                 </aside>
             </div>
 
@@ -162,13 +166,18 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
 }
 
 .cart-summary {
-    flex: 0 0 min(340px, 42%);
-    padding: 0.8rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    position: fixed;
+    top: calc(74px + 1rem);
+    right: clamp(1rem, 3vw, 3rem);
+    z-index: 15;
+    width: min(270px, calc(100vw - 2rem));
+    box-sizing: border-box;
+    padding: 0.65rem 0.8rem;
     border-radius: 10px;
-    background: rgba(26, 25, 34, 0.88);
+    background: rgba(65, 64, 64, 0.644);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
     color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .cart-summary p {
@@ -190,9 +199,31 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
 }
 
 .cart-summary .cart-total {
+    align-items: center;
     margin-top: 0.5rem;
     padding-top: 0.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cart-total img {
+    width: 25%;
+    height: 25%;
+    object-fit: contain;
+}
+
+.cart-total button {
+    padding: 0.35rem 0.65rem;
+    border: 1px solid #d7e7ff;
+    border-radius: 6px;
+    background: #ffa24c;
+    color: #080808;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cart-total button:hover {
+    background: #ff8e24;
 }
 
 .store-heading {
@@ -377,9 +408,8 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
     }
 
     .cart-summary {
-        flex-basis: auto;
-        width: 100%;
-        box-sizing: border-box;
+        top: calc(74px + 0.75rem);
+        right: 1rem;
     }
 }
 

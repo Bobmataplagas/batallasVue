@@ -39,6 +39,10 @@ export function quitarProducto(gameId: string) {
     carrito.value.splice(index, 1)
 }
 
+export function vaciarCarrito() {
+    carrito.value.splice(0)
+}
+
 export function useCarrito() {
     return {
         carrito,
@@ -48,5 +52,6 @@ export function useCarrito() {
         totalOrdenes,
         agregarProducto,
         quitarProducto,
+        vaciarCarrito,
     }
 }

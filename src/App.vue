@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { RouterView } from 'vue-router';
 import Navbar from './components/Navbar.vue';
+import Footer from './components/Footer.vue';
 
 import Ayudaview from './views/Ayudaview.vue';
 
@@ -10,7 +11,10 @@ const showHelp = ref(false);
 
 <template>
   <Navbar @toggle-help="showHelp = !showHelp" />
-  <RouterView />
+  <div class="route-content">
+    <RouterView />
+  </div>
+  <Footer @toggle-help="showHelp = !showHelp" />
   <div v-if="showHelp" class="help-backdrop" @click.self="showHelp = false">
     <Ayudaview @close="showHelp = false" />
   </div>
@@ -45,6 +49,13 @@ const showHelp = ref(false);
 </template>
 
 <style scoped>
+.route-content {
+  flex: 0 0 calc(100svh - 74px);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .help-backdrop {
   position: fixed;
   inset: 0;

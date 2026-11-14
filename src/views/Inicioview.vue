@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import fechas from '@/assets/images/fechas.png'
 import seguir from '@/assets/images/continue.png'
 import { RouterLink } from 'vue-router'
-import tomodachi from '@/assets/images/tomodachi.gif'
 </script>
 
 <template>
@@ -10,15 +8,8 @@ import tomodachi from '@/assets/images/tomodachi.gif'
         <div class="text-left inicio-copy">
             <h1 class="color3">RetroPiñatas </h1>
         </div>
-        <RouterLink class="continue-button" to="/jugar" aria-label="Seguir jugando">
-            <img :src="seguir" alt="">
-            <span>SEGUIR JUGANDO</span>
-        </RouterLink>
-        <RouterLink class="nosotros-button" to="/nosotros" aria-label="us">
-            <img :src="tomodachi" alt="us">
-            <span>NOSOTROS</span>
-        </RouterLink>
-        <img class="fechas-image" :src="fechas" alt="Fechas calendario">
+
+        
     </main>
 </template>
 
@@ -49,33 +40,6 @@ import tomodachi from '@/assets/images/tomodachi.gif'
     left: 65%;
     width: 30%;
     transform: translate(-50%, -50%);
-}
-
-.nosotros-button {
-    width: 30%;
-    display: block;
-    text-decoration: none;
-}
-
-.nosotros-button img {
-    position: absolute;
-    bottom: 28.5%;
-    left: 45%;
-    display: block;
-    width: 8%;
-}
-
-.nosotros-button span {
-    position: absolute;
-    top: 64%;
-    left: 25%;
-    width: 57%;
-    transform: translate(-27%, -65%);
-    color: #ff9100;
-    font-size: clamp(2.8rem,0vw, 0.2rem);
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
 }
 
 .continue-button {

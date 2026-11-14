@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import home from '@/assets/images/home.png'
+import home from '@/assets/images/RetroPiñata_logo.png'
 import calendar from '@/assets/images/calendar.png'
 import play from '@/assets/images/play.png'
 import shop from '@/assets/images/Eshop logo.gif'
@@ -19,8 +19,9 @@ const emit = defineEmits<{
 <template>
     <nav class="navbar">
         <div class="nav-section nav-left">
-            <RouterLink class="nav-icon icon-home" to="/inicio" aria-label="Inicio">
+            <RouterLink class="nav-icon icon-home" to="/inicio" aria-label="Inicio - RetroPiñata">
                 <img :src="home" alt="Inicio" />
+                <span class="brand-name">RetroPiñata</span>
             </RouterLink>
         </div>
 
@@ -124,7 +125,22 @@ const emit = defineEmits<{
 }
 
 .icon-home img {
-    transform: scale(130%);
+    transform: scale(200%);
+}
+
+.icon-home {
+    position: relative;
+}
+
+.brand-name {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 1.5rem);
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 2.60rem;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 .icon-calendar img {
@@ -166,11 +182,11 @@ const emit = defineEmits<{
     transform: scale(240%);
 }
 .icon-home:hover img {
-    transform: scale(120%);
+    filter: brightness(1.35);
 }
 
 .nav-icon img {
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .log {

@@ -364,6 +364,10 @@ html body #app:has(.site-footer) {
   color:rgb(0, 0, 0);
 }
 
+.color4{
+  color:rgb(0, 10, 153);
+}
+
 .img-corner0 {
   position: fixed;
   right: -1.5%;

@@ -1,15 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import home from '@/assets/images/RetroPiñata_logo.png'
 import calendar from '@/assets/images/calendar.png'
 import play from '@/assets/images/play.png'
 import shop from '@/assets/images/Eshop logo.gif'
 import planes from '@/assets/images/planes.png'
+import perla from '@/assets/images/plan-perla.svg'
+import diamante from '@/assets/images/plan-diamante.svg'
+import platino from '@/assets/images/plan-platino.svg'
 import help from '@/assets/images/help.png'
 import sesion from '@/assets/images/profile.png'
+import { usePlanActive } from '@/composables/planActive'
+import type { plan } from '@/bases/plan'
 
 const showMenu1 = ref(false)
 const showMenu2 = ref(false)
+const { activePlanId } = usePlanActive()
+
+const planImages: Record<plan['id'], string> = {
+    perla,
+    diamante,
+    platino,
+}
+const activePlanImage = computed(() =>
+    activePlanId.value ? planImages[activePlanId.value] : planes
+)
 
 const emit = defineEmits<{
     toggleHelp: []
@@ -53,7 +68,7 @@ const emit = defineEmits<{
             @mouseenter="showMenu2=true"
             @mouseleave="showMenu2=false">
                 <div class="nav-icon" aria-label="Planes">
-                    <img :src="planes" alt="Planes" />
+                    <img :src="activePlanImage" :alt="activePlanId ? `Plan ${activePlanId}` : 'Planes'" />
                 </div>
                 <div v-if="showMenu2" class="dropdown-content">
                     <RouterLink to="/planes/perla">Plan Perla</RouterLink>
@@ -246,7 +261,7 @@ a,
 .dropdown-content a {
     padding: 0.65rem 0.85rem;
     border-radius: 0.45rem;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
 

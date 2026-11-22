@@ -17,7 +17,7 @@ const subirAlInicio = () => {
     <footer class="site-footer" aria-label="Pie de página">
         <img :src="footerImage" alt="" aria-hidden="true" />
         <nav class="footer-links" aria-label="Enlaces del pie de página">
-            <RouterLink class="footer-card" to="/nosotros" aria-label="Nosotros">
+            <RouterLink class="footer-card" @click="subirAlInicio" to="/nosotros" aria-label="Nosotros">
                 <img class="nosotros-icon" :src="tomodachi" alt="" aria-hidden="true" />
                 <span>Nosotros</span>
             </RouterLink>

@@ -12,7 +12,11 @@ const showHelp = ref(false);
 <template>
   <Navbar @toggle-help="showHelp = !showHelp" />
   <div class="route-content">
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <KeepAlive include="Inicioview">
+        <component :is="Component" />
+      </KeepAlive>
+    </RouterView>
   </div>
   <Footer @toggle-help="showHelp = !showHelp" />
   <div v-if="showHelp" class="help-backdrop" @click.self="showHelp = false">

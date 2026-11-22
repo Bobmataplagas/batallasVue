@@ -56,7 +56,7 @@ const { toggleSound, onVideoMetadata, playbackError, soundEnabled } = useArcadeV
 .arcade-image {
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: 0;
     display: block;
     width: 100%;
     height: 100%;
@@ -66,7 +66,7 @@ const { toggleSound, onVideoMetadata, playbackError, soundEnabled } = useArcadeV
 
 .arcade-video {
     position: absolute;
-    z-index: 3;
+    z-index: 1;
     top: 5.7%;
     left: 29%;
     width: 42.5%;

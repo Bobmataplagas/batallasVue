@@ -169,7 +169,7 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
     position: fixed;
     top: calc(74px + 1rem);
     right: clamp(1rem, 3vw, 3rem);
-    z-index: 15;
+    z-index: 1;
     width: min(270px, calc(100vw - 2rem));
     box-sizing: border-box;
     padding: 0.65rem 0.8rem;

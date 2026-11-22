@@ -244,24 +244,22 @@ a,
     min-width: 10rem;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction:column;
     padding: 0.4rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 0.75rem;
     background: rgba(26, 27, 38, 0.96);
     box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(10px);
 }
 
 .nav-right > .dropdown .dropdown-content {
-    right: 0;
-    left: auto;
+    right:0%;
 }
 
 .dropdown-content a {
-    padding: 0.65rem 0.85rem;
+    padding: 5%;
     border-radius: 0.45rem;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
 

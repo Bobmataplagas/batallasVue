@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fullcalendar/core": "^7.1.5",
+    "@fullcalendar/vue3": "^7.1.5",
+    "temporal-polyfill": "^1.0.8",
     "test": "^3.3.0",
     "vue": "^3.5.41",
     "vue-router": "^4.6.4"

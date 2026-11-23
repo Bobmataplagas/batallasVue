@@ -6,6 +6,7 @@ import Nosotrosview from '../views/Nosotrosview.vue';
 import Jugarview from '../views/Jugarview.vue';
 import Planesview from '@/views/Planesview.vue';
 import TiendaDetalleview from '@/views/TiendaDetalleview.vue';
+import Calendarview from '@/views/Calendarview.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,6 +14,7 @@ const router = createRouter({
     { path: '/', component: Inicioview },
     { path: '/inicio', component: Inicioview },
     { path: '/nosotros', component: Nosotrosview },
+    { path: '/calendar', component: Calendarview },
     { path: '/jugar', component: Jugarview},
     { path: '/sesion', component: Sesionview },
     { path: '/tienda/', component: Tiendaview },

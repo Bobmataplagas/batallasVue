@@ -57,6 +57,7 @@ const game = computed(() => games.find((game) => game.id === props.id))
 }
 
 .detail-info {
+    z-index: 3;
     padding: clamp(1.25rem, 3vw, 2.5rem);
     border: 1px solid rgb(255 255 255 / 28%);
     border-radius: 1.25rem;
@@ -68,6 +69,7 @@ const game = computed(() => games.find((game) => game.id === props.id))
 }
 
 .media-column {
+    z-index: 3;
     display: grid;
     gap: 2rem;
     position: sticky;

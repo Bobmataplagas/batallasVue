@@ -43,6 +43,7 @@ const subirAlInicio = () => {
 
 <style scoped>
 .site-footer {
+    z-index: 1;
     position: relative;
     width: 100%;
     flex-shrink: 0;

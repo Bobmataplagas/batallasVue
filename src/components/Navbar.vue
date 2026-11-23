@@ -41,7 +41,7 @@ const emit = defineEmits<{
         </div>
 
         <div class="nav-section nav-center">
-            <RouterLink class="nav-icon icon-calendar" to="/noticias" aria-label="Noticias">
+            <RouterLink class="nav-icon icon-calendar" to="/calendar" aria-label="Noticias">
                 <img :src="calendar" alt="Noticias" />
             </RouterLink>
 
@@ -96,7 +96,7 @@ const emit = defineEmits<{
 .navbar {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 4;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

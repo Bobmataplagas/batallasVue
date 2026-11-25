@@ -21,7 +21,8 @@ const {
     totalOrdenes,
     agregarProducto,
     quitarProducto,
-    vaciarCarrito,
+    pagarCarrito,
+    errorBiblioteca,
 } = useCarrito()
 
 const tieneProducto = (gameId: string) => carrito.value.some((producto) => producto.id === gameId)
@@ -42,8 +43,12 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
                     <p class="cart-total">
                         <img :src="carritoIcon" alt="Carrito" />
                         <strong>${{ precioTotal }} MXN</strong>
-                        <button type="button" @click="vaciarCarrito">Pagar</button>
+                        <button 
+                            type="button" 
+                            :disabled="carrito.length === 0" 
+                            @click="pagarCarrito">Pagar</button>
                     </p>
+                    <p v-if="errorBiblioteca" class="cart-error" role="alert">{{ errorBiblioteca }}</p>
                 </aside>
             </div>
 
@@ -224,6 +229,17 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
 
 .cart-total button:hover {
     background: #ff8e24;
+}
+
+.cart-total button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.cart-summary .cart-error {
+    display: block;
+    color: #ffd1d1;
+    font-size: 0.85rem;
 }
 
 .store-heading {
@@ -416,7 +432,7 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
 :global(#app:has(.tienda-view)) {
     height: 100svh;
     overflow: hidden;
-    background-image: url('../assets/images/tienda.png');
+    background-image: url('../assets/images/rentarcomprar.png');
     background-position: center bottom;
     background-size: cover;
     background-repeat: no-repeat;

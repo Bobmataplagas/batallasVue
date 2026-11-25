@@ -47,7 +47,7 @@ onUnmounted(() => {
                     {{ feature }}
                 </div>
             <button class="pagar-plan" type="button" @click="payPlan">
-                Simular pago y obtener {{ plan.name }}
+                Obtener {{ plan.name }}
             </button>
         </section>
     </main>

@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
 <article class="comida-card">
-        <div class="comida-actions">
+        <div>
             <button type="button" :disabled="cantidad === 0" @click="emit('quitar')">−</button>
             <span aria-live="polite">{{ cantidad }}</span>
             <button type="button" @click="emit('comprar')">+</button>

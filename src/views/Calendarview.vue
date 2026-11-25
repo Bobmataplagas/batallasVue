@@ -6,7 +6,7 @@ import home from '@/assets/images/RetroPiñata_logo.png'
 
 <template>
     <div>
-        <main class="nosotros-view">
+        <main class="calendar-view">
         <Calendar></Calendar>
         </main>
     </div>

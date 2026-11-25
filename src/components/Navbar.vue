@@ -52,9 +52,8 @@ const emit = defineEmits<{
                     <img :src="play" alt="Jugar" />
                 </RouterLink>
                 <div v-if="showMenu1" class="dropdown-content">
-                    <RouterLink to="/constants">Reciente</RouterLink>
-                    <RouterLink to="/objectLiterals">Nuevo</RouterLink>
-                    <RouterLink to="/headerComponent">Al azar</RouterLink>
+                    <RouterLink to="/jugar/last">Seguir jugando</RouterLink>
+                    <RouterLink to="/jugar/random">Al azar</RouterLink>
                 </div>
             </div>
 

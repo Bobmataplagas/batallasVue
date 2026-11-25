@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import sidebar from '@/assets/images/sidebar.png'
 import shop from '@/assets/images/Eshop logo.gif'
 import n64 from '@/assets/images/n64.jpg'
@@ -9,6 +11,13 @@ import wii from '@/assets/images/wii.gif'
 import threeDs from '@/assets/images/3ds.jpg'
 import playStation from '@/assets/images/ps1.gif'
 import type { consola } from '@/interfaces/games.interface'
+import gba from '@/assets/images/play.png'
+
+const route = useRoute()
+
+const allGamesImage = computed(() => {
+    return route.path.startsWith('/jugar') ? gba : shop
+})
 
 export interface consoleButton {
     section: consola
@@ -53,7 +62,7 @@ const selectSection = (section: consola | 'Ver todos los juegos') => {
                         :aria-pressed="activeSection === 'Ver todos los juegos'"
                         @click="selectSection('Ver todos los juegos')"
                     >
-                        <img :src="shop" alt="Ver todos los juegos" />
+                        <img :src="allGamesImage" alt="Ver todos los juegos" /> 
                     </button>
                     <button
                         v-for="consoleButton in consoleButtons"

@@ -193,7 +193,7 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
 }
 
 .cart-summary strong {
-    color: #ffc96b;
+    color: #6be9ff;
     text-align: right;
 }
 
@@ -207,7 +207,7 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
     align-items: center;
     margin-top: 0.5rem;
     padding-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgb(255, 253, 253);
 }
 
 .cart-total img {
@@ -218,17 +218,17 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
 
 .cart-total button {
     padding: 0.35rem 0.65rem;
-    border: 1px solid #d7e7ff;
+    border: 1px solid #ffffff;
     border-radius: 6px;
-    background: #ffa24c;
-    color: #080808;
+    background: #ffffff;
+    color: #000000;
     font-family: inherit;
     font-weight: 700;
     cursor: pointer;
 }
 
 .cart-total button:hover {
-    background: #ff8e24;
+    background: #24f8ff;
 }
 
 .cart-total button:disabled {
@@ -289,7 +289,7 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
     display: grid;
     width: 110%;
     text-align: left;
-    background: rgba(129, 64, 34, 0.692);
+    background: rgba(34, 99, 129, 0.692);
     border-radius: 8px;
     padding: 0.75rem;
     color: #050505;
@@ -320,6 +320,7 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
 
 .game-info {
     color: #fff;
+    position: relative;
 }
 
 .game-info h3 {
@@ -361,15 +362,15 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
     padding: 0.35rem 0.5rem;
     border: 2px solid #d7e7ff;
     border-radius: 6px;
-    background: #ffa24c;
-    color: rgb(8, 8, 8);
+    background: #ffffff;
+    color: rgb(0, 0, 0);
     font-family: inherit;
     cursor: pointer;
 }
 
-.game-info button:hover {
+.game-info > button:hover {
     transform: translate(1px, 1px);
-    background: #ff8e24;
+    background: #308ec49f;
 }
 
 .cart-actions {
@@ -384,16 +385,31 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
     font-size: 0.85rem;
 }
 
-.game-info .cart-actions button:disabled {
-    cursor: not-allowed;
-    opacity: 0.55;
+.game-info .cart-actions button:first-child {
+    background-color: #d6d6d6;
+    border-color: #bdbdbd;
+}
+
+.game-info .cart-actions button:last-child {
+    background-color: #a5a5a5;
+    border-color: #888888;
+}
+
+.game-info .cart-actions button:first-child:hover {
+    background-color: #bcbcbc;
+}
+
+.game-info .cart-actions button:last-child:hover {
+    background-color: #858585;
 }
 
 .cart-item-status {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 0.35rem;
+    min-height: 42px;
+    margin-top: 5px;
     font-size: 0.9rem !important;
 }
 

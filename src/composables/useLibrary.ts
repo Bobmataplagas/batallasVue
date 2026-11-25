@@ -21,12 +21,29 @@ export function useLibrary() {
         selectedGameId.value = selectedGameId.value === gameId ? null : gameId
     }
 
+    const juegosPorEstante = 4
+    const juegosEnEstantes = computed(() => {
+        const estantes = []
+        for (let i = 0; i < juegosFiltrados.value.length; i += juegosPorEstante) {
+            estantes.push(
+                juegosFiltrados.value.slice(i, i + juegosPorEstante)
+            )
+        }
+        return estantes
+    })
+    const juegoEnTele = computed(() =>
+        juegosFiltrados.value.find((game) => game.id === selectedGameId.value)
+        ?? juegosFiltrados.value[0]
+        ?? null
+    )
+
     return { 
         activeSection,
         juegosFiltrados,
         seleccionarJuego,
         juegosAdquiridos,
         errorBiblioteca,
-        selectedGameId
+        juegosEnEstantes,
+        juegoEnTele
     }
 }

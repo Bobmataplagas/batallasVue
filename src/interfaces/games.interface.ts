@@ -50,7 +50,7 @@ export const games: game[] = [
         console: 'Nintendo DS',
         price: 49,
         image: 'https://m.media-amazon.com/images/I/61tEqF7tsOL.jpg',
-        video: 'https://youtu.be/4DQ9hKu6Usk?si=tv6R-7_vrG5PJkU2',
+        video: 'https://www.youtube.com/embed/3ep8sIknduU?si=uOc0i9kda_qm223C',
     },
     {
         id: '4',

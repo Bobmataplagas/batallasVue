@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import ConsoleButtons from '@/components/ConsoleButtons.vue'
 import { useLibrary } from '@/composables/useLibrary';
 import shelf from '@/assets/images/shelf.png'
+import tv from '@/assets/images/TV.png'
+import effectCRT from '@/assets/images/effectCRT.png'
 
 const {
     activeSection,
@@ -10,19 +11,9 @@ const {
     seleccionarJuego,
     juegosAdquiridos,
     errorBiblioteca,
-    selectedGameId
+    juegosEnEstantes,
+    juegoEnTele
 } = useLibrary()
-
-const juegosPorEstante = 5
-const juegosEnEstantes = computed(() => {
-    const estantes = []
-    for (let i = 0; i < juegosFiltrados.value.length; i += juegosPorEstante) {
-        estantes.push(
-            juegosFiltrados.value.slice(i, i + juegosPorEstante)
-        )
-    }
-    return estantes
-})
 </script>
 
 <template>
@@ -32,32 +23,62 @@ const juegosEnEstantes = computed(() => {
             <header class="library-heading">
                 <div>
                     <span class="library-kicker">Retro🪅Biblioteca</span>
-                    <h1>{{ activeSection === 'Ver todos los juegos' ? 'Mis juegos' : activeSection }}</h1>
+                    <h1>{{ activeSection === 'Ver todos los juegos' ? 'Todos los juegos' : activeSection }}</h1>
                 </div>
             </header>
 
             <p v-if="errorBiblioteca" class="library-error" role="alert">{{ errorBiblioteca }}</p>
             
-            <div v-if="juegosFiltrados.length" class="shelves-container">
-                <div v-for="(estante, index) in juegosEnEstantes" :key="index" class="shelf-row">
-                    <img class="shelf-display" :src="shelf" alt="" aria-hidden="true" />
-                    <div class="games-shelf">
-                            <RouterLink
-                                v-for="game in estante"
-                                :key="game.id"
-                                :to="`/jugar/${game.id}`"
-                                class="game-cover-button"
-                                :title="game.name"
-                                :aria-label="`Ver ${game.name}`"
-                                @click="seleccionarJuego(game.id)"
-                                >
-                                <img
-                                    :src="game.image"
-                                    :alt="`Portada de ${game.name}`"
-                                />
-                            </RouterLink>
+            <div v-if="juegosFiltrados.length" class="library-display">
+                <section class="tv-console" aria-label="Juego seleccionado">
+                    <div class="tv-stage">
+                        <img class="tv-frame" :src="tv" alt="" aria-hidden="true" />
+                        <div v-if="juegoEnTele" class="tv-screen">
+                            <img
+                                class="tv-game-cover"
+                                :src="juegoEnTele.image"
+                                :alt="`Portada de ${juegoEnTele.name}`"
+                            />
+                        </div>
+                        <img class="tv-crt-effect" :src="effectCRT" alt="" aria-hidden="true" />
                     </div>
-                </div>
+                    <div v-if="juegoEnTele" class="tv-caption">
+                        <div>
+                            <span class="tv-caption-label">En pantalla</span>
+                            <strong>{{ juegoEnTele.name }}</strong>
+                        </div>
+                        <RouterLink class="tv-open-game" :to="`/jugar/${juegoEnTele.id}`">
+                            Jugar
+                        </RouterLink>
+                    </div>
+                </section>
+
+                <section class="library-shelf" aria-label="Selecciona un juego">
+                    <div class="shelf-heading">
+                        <h2>Mi colección</h2>
+                        <span>{{ juegosFiltrados.length }} juegos</span>
+                    </div>
+                    <div class="shelves-container">
+                        <div v-for="(estante, index) in juegosEnEstantes" :key="index" class="shelf-row">
+                            <img class="shelf-display" :src="shelf" alt="" aria-hidden="true" />
+                            <div class="games-shelf">
+                                <button
+                                    v-for="game in estante"
+                                    :key="game.id"
+                                    type="button"
+                                    class="game-cover-button"
+                                    :class="{ 'is-selected': juegoEnTele?.id === game.id }"
+                                    :title="game.name"
+                                    :aria-label="`Mostrar ${game.name} en la televisión`"
+                                    :aria-pressed="juegoEnTele?.id === game.id"
+                                    @click="seleccionarJuego(game.id)"
+                                >
+                                    <img :src="game.image" :alt="`Portada de ${game.name}`" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
             <div v-else class="empty-library">
@@ -82,19 +103,22 @@ const juegosEnEstantes = computed(() => {
 }
 
 .juegos-content {
+    display: flex;
+    flex-direction: column;
     min-width: 0;
-    padding: 1.5rem clamp(1rem, 3vw, 3rem);
-    overflow-y: auto;
-    overflow-x: hidden;
+    min-height: 0;
+    padding: clamp(0.5rem, 1vh, 0.85rem) clamp(1rem, 3vw, 3rem);
+    overflow: hidden;
 }
 
 .library-heading {
+    flex: 0 0 auto;
     display: flex;
     align-items: end;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1.4rem;
-    padding-bottom: 0.7rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
     border-bottom: 2px solid rgba(8, 10, 16, 0.18);
 }
 
@@ -112,15 +136,158 @@ const juegosEnEstantes = computed(() => {
 }
 
 .shelves-container {
+    display: grid;
+    flex: 1;
+    grid-auto-rows: clamp(175px, 29vh, 220px);
+    align-content: safe center;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.25rem 0.25rem 0.5rem;
+}
+
+.library-display {
+    display: grid;
+    flex: 1;
+    grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.9fr);
+    gap: clamp(1rem, 2vw, 2rem);
+    min-height: 0;
+}
+
+.tv-console {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tv-stage {
+    position: relative;
+    isolation: isolate;
+    width: min(100%, 68vh, calc(100svh - 225px));
+    aspect-ratio: 1;
+    margin: 0 auto;
+}
+
+.tv-screen {
+    position: absolute;
+    z-index: 2;
+    top: 21.6%;
+    left: 19%;
+    width: 64%;
+    height: 46%;
+    overflow: hidden;
+    border-radius: 6%;
+    background: #07080b;
+}
+
+.tv-game-cover {
+    display: block;
     width: 100%;
-    padding: 0 0 3rem;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.tv-crt-effect {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.tv-frame {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.tv-caption {
+    display: flex;
+    width: min(100%, 68vh, calc(100svh - 225px));
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0.25rem auto 0;
+}
+
+.tv-caption > div {
+    display: grid;
+    min-width: 0;
+    text-align: left;
+}
+
+.tv-caption-label {
+    color: #b94a00;
+    font-size: 110%;
+    text-transform: uppercase;
+}
+
+.tv-caption strong {
+    overflow: hidden;
+    color: #182b36;
+    font-size: 200%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tv-open-game {
+    flex: 0 0 auto;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
+    background: #ffc983;
+    font-size: 1.50rem;
+    text-decoration: none;
+    transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.tv-open-game:hover {
+    transform: translateY(-2px);
+    background: #ffaf54;
+}
+
+.library-shelf {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    flex-direction: column;
+}
+
+.shelf-heading {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0 0 0.35rem;
+    color: #263943;
+}
+
+.shelf-heading h2 {
+    margin: 0;
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+}
+
+.shelf-heading span {
+    color: #536c78;
+    font-size: 0.8rem;
+    white-space: nowrap;
 }
 
 .shelf-row {
     position: relative;
     width: 100%;
-    min-height: 310px;
-    margin-bottom: 1rem;
+    height: 100%;
     overflow: visible;
 }
 
@@ -142,28 +309,28 @@ const juegosEnEstantes = computed(() => {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: end;
-    gap: clamp(0.5rem, 1.5vw, 1.5rem);
-    padding: 3.5rem 4rem 1.5rem;
+    gap: clamp(0.25rem, 0.8vw, 0.65rem);
+    padding: 2.5rem clamp(1.15rem, 2.4vw, 2rem) 1.1rem;
     box-sizing: border-box;
 }
 
-/* PORTADAS */
 .game-cover-button {
     position: relative;
     width: 100%;
-    max-height: 230px;
+    max-width: 100px;
+    max-height: clamp(100px, 18vh, 140px);
     aspect-ratio: 136 / 190;
+    justify-self: center;
     padding: 0;
-    border: 3px solid transparent;
-    border-radius: 8px;
+    border: 0;
+    border-radius: 0;
     background: transparent;
     cursor: pointer;
-    filter: drop-shadow( 10px 12px 8px rgba(0, 0, 0, 0.35) );
-    transition: transform 180ms ease, filter 180ms ease, border-color 180ms ease;
+    filter: drop-shadow(10px 12px 8px rgba(0, 0, 0, 0.35));
+    transition: transform 180ms ease, filter 180ms ease;
     display: block;
-    text-decoration: none;
 }
 
 .game-cover-button img {
@@ -176,7 +343,16 @@ const juegosEnEstantes = computed(() => {
 
 .game-cover-button:hover {
     transform: translateY(-8px);
-    filter: drop-shadow( 10px 15px 9px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(10px 15px 9px rgba(0, 0, 0, 0.5));
+}
+
+.game-cover-button.is-selected {
+    transform: translateY(-5px);
+}
+
+.game-cover-button:focus-visible {
+    outline: 2px solid #31a8d1;
+    outline-offset: 3px;
 }
 
 .empty-library {
@@ -279,6 +455,30 @@ const juegosEnEstantes = computed(() => {
 @keyframes panel-appear {
     from { opacity: 0; transform: translateY(0.75rem); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 860px) {
+    .juegos-content {
+        overflow-y: auto;
+    }
+
+    .library-display {
+        flex: 0 0 auto;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .tv-stage,
+    .tv-caption {
+        width: min(100%, 52vh, 440px, calc(100svh - 225px));
+    }
+
+    .library-shelf {
+        min-height: 260px;
+    }
+
+    .shelves-container {
+        max-height: 46vh;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

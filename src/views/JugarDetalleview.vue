@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { games } from '@/interfaces/games.interface.ts'
-import { useCarrito } from '@/composables/useCarrito.ts'
 
 const props = defineProps<{ id: string }>()
 const game = computed(() =>
@@ -27,7 +26,7 @@ const game = computed(() =>
     </main>
 
     <main v-else class="game-not-found">
-        <h1>Juego no encontrado</h1>
+        <h1 >Juego no encontrado</h1>
         <RouterLink to="/jugar">
             ← Regresar a la biblioteca
         </RouterLink>
@@ -35,6 +34,17 @@ const game = computed(() =>
 </template>
 
 <style scoped>
+
+.game-not-found{
+    font-size: 150%;
+    color:white
+}
+
+.game-not-found h1{
+    font-size: 200%;
+    color:white
+}
+
 .jugar-detalle-view {
     flex: 1;
     min-height: 0;
@@ -44,7 +54,7 @@ const game = computed(() =>
     height: 100svh;
     overflow-y: hidden;
     overflow-x: hidden;
-    background-image: url('../assets/images/jugar.png');
+    background-image: url('../assets/images/gameplay.jpg');
     background-position: center bottom;
     background-size: cover;
     background-repeat: no-repeat;
@@ -68,7 +78,7 @@ const game = computed(() =>
     position: absolute;
     margin-top: 2%;
     margin-left: -43%;
-    color: #000000;
+    color: #ffff;
     font-size: 4.0rem;
     font-weight: bold;
 }

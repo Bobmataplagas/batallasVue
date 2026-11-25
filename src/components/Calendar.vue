@@ -72,7 +72,7 @@ const calendarOptions = {
         <header class="calendar-heading">
             <div class="calendar-heading-copy">
                 <span class="calendar-eyebrow">Próximos lanzamientos y aniversarios</span>
-                <h1 id="calendar-title" class="calendar-title">Retro🪅Calendar</h1>
+                <h1 id="calendar-title" class="calendar-title">Retro🪅News</h1>
             </div>
         </header>
 

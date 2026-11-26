@@ -6,7 +6,7 @@ export const console = [
     'Nintendo Wii',
     'Nintendo 3DS',
     'PlayStation 1',
-    
+
 ] as const
 
 export type consola = typeof console[number]

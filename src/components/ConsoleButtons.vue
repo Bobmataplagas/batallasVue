@@ -1,16 +1,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import type { consola } from '@/interfaces/games.interface'
+import { consoleButtons } from '@/interfaces/consolesButtons'
 import sidebar from '@/assets/images/sidebar.png'
 import shop from '@/assets/images/Eshop logo.gif'
-import n64 from '@/assets/images/n64.jpg'
-import gameCube from '@/assets/images/gamecube.jpg'
-import gameBoyAdvance from '@/assets/images/gba.jpg'
-import ds from '@/assets/images/ds.jpg'
-import wii from '@/assets/images/wii.gif'
-import threeDs from '@/assets/images/3ds.jpg'
-import playStation from '@/assets/images/ps1.gif'
-import type { consola } from '@/interfaces/games.interface'
 import gba from '@/assets/images/play.png'
 
 const route = useRoute()
@@ -18,22 +12,6 @@ const route = useRoute()
 const allGamesImage = computed(() => {
     return route.path.startsWith('/jugar') ? gba : shop
 })
-
-export interface consoleButton {
-    section: consola
-    image: string
-    alt: string
-}
-
-const consoleButtons: consoleButton[] = [
-    { section: 'Nintendo 64', image: n64, alt: 'Nintendo 64' },
-    { section: 'Nintendo GameCube', image: gameCube, alt: 'Nintendo GameCube' },
-    { section: 'Game Boy Advance', image: gameBoyAdvance, alt: 'Game Boy Advance' },
-    { section: 'Nintendo DS', image: ds, alt: 'Nintendo DS' },
-    { section: 'Nintendo Wii', image: wii, alt: 'Nintendo Wii' },
-    { section: 'Nintendo 3DS', image: threeDs, alt: 'Nintendo 3DS' },
-    { section: 'PlayStation 1', image: playStation, alt: 'PlayStation 1' },
-]
 
 const activeSection = defineModel<consola | 'Ver todos los juegos'>({
     required: true,

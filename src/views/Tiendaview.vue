@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useCarrito, type productoCarrito } from '@/composables/useCarrito.ts'
 import ConsoleButtons from '@/components/ConsoleButtons.vue'
+import StoreCartSummary from '@/components/StoreCartSummary.vue'
+import StoreGameCard from '@/components/StoreGameCard.vue'
 import type { game } from '@/interfaces/games.interface.ts'
 import useStoreGames from '@/composables/storeGames.ts'
-import carritoIcon from '@/assets/images/carrito.png'
 
 const {
     activeSection,
@@ -22,12 +23,10 @@ const {
     agregarProducto,
     quitarProducto,
     pagarCarrito,
-    errorBiblioteca,
 } = useCarrito()
 
 const tieneProducto = (gameId: string) => carrito.value.some((producto) => producto.id === gameId)
-const tipoEnCarrito = (gameId: string) =>
-    carrito.value.find((producto) => producto.id === gameId)?.tipo
+const tipoEnCarrito = (gameId: string) => carrito.value.find((producto) => producto.id === gameId)?.tipo
 const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarProducto(game, tipo)
 </script>
 
@@ -37,19 +36,13 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
         <section class="tienda-content">
             <h1 class="store-name">Retro🪅Shop</h1>
             <div class="store-top-row">
-                <aside class="cart-summary" aria-label="Resumen del carrito">
-                    <p>Compras <strong>{{ totalCompras }} orden(es)</strong></p>
-                    <p>Rentas <strong>{{ totalRentas }} orden(es)</strong></p>
-                    <p class="cart-total">
-                        <img :src="carritoIcon" alt="Carrito" />
-                        <strong>${{ precioTotal }} MXN</strong>
-                        <button 
-                            type="button" 
-                            :disabled="carrito.length === 0" 
-                            @click="pagarCarrito">Pagar</button>
-                    </p>
-                    <p v-if="errorBiblioteca" class="cart-error" role="alert">{{ errorBiblioteca }}</p>
-                </aside>
+                <StoreCartSummary
+                    :total-compras="totalCompras"
+                    :total-rentas="totalRentas"
+                    :precio-total="precioTotal"
+                    :carrito-vacio="carrito.length === 0"
+                    @pay="pagarCarrito"
+                />
             </div>
 
             <template v-if="activeSection === 'Ver todos los juegos'">
@@ -60,31 +53,18 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
                     </div>
                 </div>
                 <div class="games-shelf featured-shelf">
-                    <article v-for="game in featuredGames" :key="game.id" class="game-item game-card">
-                        <RouterLink :to="`/tienda/${game.id}`" class="game-case" :title="game.name">
-                            <img :src="game.image" :alt="`Portada de ${game.name}`" class="game-cover" />
-                        </RouterLink>
-                    <div class="game-info">
-                            <h3>{{ game.name }}</h3>
-                            <div class="game-meta">
-                                <p class="game-genre">{{ game.genre }}</p>
-                                <p class="game-price">${{ game.price }}</p>
-                            </div>
-                            <button type="button" :aria-label="`Comprar ${game.name}`" @click="openGameDetails(game.id)">VER MÁS🛒</button>
-                            <div class="cart-actions">
-                                <button type="button" :disabled="tieneProducto(game.id)" @click="agregarAlCarrito(game, 'compra')">
-                                    Comprar ${{ game.price }}
-                                </button>
-                                <button type="button" :disabled="tieneProducto(game.id)" @click="agregarAlCarrito(game, 'renta')">
-                                    Rentar gratis
-                                </button>
-                            </div>
-                            <p v-if="tieneProducto(game.id)" class="cart-item-status">
-                                En carrito: {{ tipoEnCarrito(game.id) === 'compra' ? 'Compra' : 'Renta' }}
-                                <button type="button" @click="quitarProducto(game.id)">Quitar</button>
-                            </p>
-                    </div>
-                    </article>
+                    <StoreGameCard
+                        v-for="game in featuredGames"
+                        :key="game.id"
+                        :game="game"
+                        :in-cart="tieneProducto(game.id)"
+                        :cart-type="tipoEnCarrito(game.id)"
+                        details-label="VER MÁS🛒"
+                        rent-label="Rentar (gratis)"
+                        @details="openGameDetails"
+                        @add-to-cart="agregarAlCarrito(game, $event)"
+                        @remove="quitarProducto"
+                    />
                 </div>
 
                 <div class="store-heading">
@@ -98,38 +78,25 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
 
             <div v-else class="store-heading">
                 <div>
-                    <span class="store-kicker">Catalogo</span>
+                    <span class="store-kicker">🪅 Catalogo 🪅</span>
                     <h2>{{ activeSection }}</h2>
                 </div>
                 <span class="games-count">{{ filteredGames.length }} juegos</span>
             </div>
 
             <div v-if="catalogGames.length" class="games-shelf">
-                <article v-for="game in catalogGames" :key="game.id" class="game-item game-card">
-                    <RouterLink :to="`/tienda/${game.id}`" class="game-case" :title="game.name">
-                        <img :src="game.image" :alt="`Portada de ${game.name}`" class="game-cover" />
-                    </RouterLink>
-                    <div class="game-info">
-                        <h3>{{ game.name }}</h3>
-                        <div class="game-meta">
-                            <p class="game-genre">{{ game.genre }}</p>
-                            <p class="game-price">${{ game.price }}</p>
-                        </div>
-                        <button type="button" :aria-label="`Comprar ${game.name}`" @click="openGameDetails(game.id)">VER MÁS 🛒</button>
-                        <div class="cart-actions">
-                            <button type="button" :disabled="tieneProducto(game.id)" @click="agregarAlCarrito(game, 'compra')">
-                                Comprar ${{ game.price }}
-                            </button>
-                            <button type="button" :disabled="tieneProducto(game.id)" @click="agregarAlCarrito(game, 'renta')">
-                                Rentar gratis
-                            </button>
-                        </div>
-                        <p v-if="tieneProducto(game.id)" class="cart-item-status">
-                            En carrito: {{ tipoEnCarrito(game.id) === 'compra' ? 'Compra' : 'Renta' }}
-                            <button type="button" @click="quitarProducto(game.id)">Quitar</button>
-                        </p>
-                    </div>
-                </article>
+                <StoreGameCard
+                    v-for="game in catalogGames"
+                    :key="game.id"
+                    :game="game"
+                    :in-cart="tieneProducto(game.id)"
+                    :cart-type="tipoEnCarrito(game.id)"
+                    details-label="VER MÁS 🛒"
+                    rent-label="Rentar gratis"
+                    @details="openGameDetails"
+                    @add-to-cart="agregarAlCarrito(game, $event)"
+                    @remove="quitarProducto"
+                />
             </div>
             <div v-else class="empty-catalog">
                 <strong>Esta consola aun no tiene juegos</strong>
@@ -168,78 +135,6 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
     justify-content: space-between;
     margin-bottom: 1.4rem;
     padding-bottom: 0.7rem;
-}
-
-.cart-summary {
-    position: fixed;
-    top: calc(74px + 1rem);
-    right: clamp(1rem, 3vw, 3rem);
-    z-index: 1;
-    width: min(270px, calc(100vw - 2rem));
-    box-sizing: border-box;
-    padding: 0.65rem 0.8rem;
-    border-radius: 10px;
-    background: rgba(65, 64, 64, 0.644);
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
-    color: #fff;
-}
-
-.cart-summary p {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin: 0.25rem 0;
-}
-
-.cart-summary strong {
-    color: #6be9ff;
-    text-align: right;
-}
-
-.cart-summary hr {
-    margin: 0.55rem 0;
-    border: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.cart-summary .cart-total {
-    align-items: center;
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid rgb(255, 253, 253);
-}
-
-.cart-total img {
-    width: 25%;
-    height: 25%;
-    object-fit: contain;
-}
-
-.cart-total button {
-    padding: 0.35rem 0.65rem;
-    border: 1px solid #ffffff;
-    border-radius: 6px;
-    background: #ffffff;
-    color: #000000;
-    font-family: inherit;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.cart-total button:hover {
-    background: #24f8ff;
-}
-
-.cart-total button:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-.cart-summary .cart-error {
-    display: block;
-    color: #ffd1d1;
-    font-size: 0.85rem;
 }
 
 .store-heading {
@@ -285,140 +180,6 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
     margin-bottom: 2rem;
 }
 
-.game-card {
-    display: grid;
-    width: 110%;
-    text-align: left;
-    background: rgba(34, 99, 129, 0.692);
-    border-radius: 8px;
-    padding: 0.75rem;
-    color: #050505;
-    box-sizing: border-box;
-}
-
-.game-case {
-    position: relative;
-    width: 136px;
-    height: 190px;
-    margin: 0 auto 0.8rem;
-    filter: drop-shadow(10px 12px 8px rgba(0, 0, 0, 0.35));
-    transition: transform 180ms ease, filter 180ms ease;
-}
-
-
-.game-case:hover {
-    transform: translateY(-10px) rotate(-1deg);
-    filter:hue-rotate();
-}
-
-.game-cover {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position:top;
-}
-
-.game-info {
-    color: #fff;
-    position: relative;
-}
-
-.game-info h3 {
-    height: 3.2em;
-    margin: 0 0 0.2rem;
-    overflow: hidden;
-    font-size: 1.35rem;
-    line-height: 1.2;
-}
-
-.game-info p {
-    margin-bottom: 0.45rem;
-    text-align: right;
-    color: #ffffff;
-    font-size: 1.45rem;
-}
-
-.game-meta {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.game-meta p {
-    margin-bottom: 0.45rem;
-}
-
-.game-meta .game-price {
-    text-align: right;
-}
-
-.game-meta .game-genre {
-    text-align: left;
-}
-
-.game-info button {
-    width: 100%;
-    padding: 0.35rem 0.5rem;
-    border: 2px solid #d7e7ff;
-    border-radius: 6px;
-    background: #ffffff;
-    color: rgb(0, 0, 0);
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.game-info > button:hover {
-    transform: translate(1px, 1px);
-    background: #308ec49f;
-}
-
-.cart-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.35rem;
-    margin-top: 0.5rem;
-}
-
-.game-info .cart-actions button {
-    padding: 0.35rem 0.2rem;
-    font-size: 0.85rem;
-}
-
-.game-info .cart-actions button:first-child {
-    background-color: #d6d6d6;
-    border-color: #bdbdbd;
-}
-
-.game-info .cart-actions button:last-child {
-    background-color: #a5a5a5;
-    border-color: #888888;
-}
-
-.game-info .cart-actions button:first-child:hover {
-    background-color: #bcbcbc;
-}
-
-.game-info .cart-actions button:last-child:hover {
-    background-color: #858585;
-}
-
-.cart-item-status {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.35rem;
-    min-height: 42px;
-    margin-top: 5px;
-    font-size: 0.9rem !important;
-}
-
-.game-info .cart-item-status button {
-    width: auto;
-    padding: 0.2rem 0.4rem;
-    font-size: 0.8rem;
-}
-
 .empty-catalog {
     display: grid;
     place-content: center;
@@ -439,10 +200,6 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
         flex-direction: column;
     }
 
-    .cart-summary {
-        top: calc(74px + 0.75rem);
-        right: 1rem;
-    }
 }
 
 :global(#app:has(.tienda-view)) {

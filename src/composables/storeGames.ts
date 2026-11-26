@@ -9,9 +9,7 @@ export default function useStoreGames() {
     const activeSection = ref<StoreSection>('Ver todos los juegos')
 
     const filteredGames = computed(() =>
-        activeSection.value === 'Ver todos los juegos'
-            ? games
-            : games.filter((game) => game.console === activeSection.value)
+        activeSection.value === 'Ver todos los juegos' ? games : games.filter((game) => game.console === activeSection.value)
     )
 
     const featuredGames = computed(() =>

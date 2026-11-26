@@ -16,6 +16,7 @@ const {
 
 const {
     carrito,
+    biblioteca,
     precioTotal,
     totalCompras,
     totalRentas,
@@ -26,6 +27,7 @@ const {
 } = useCarrito()
 
 const tieneProducto = (gameId: string) => carrito.value.some((producto) => producto.id === gameId)
+const estaAdquirido = (gameId: string) => biblioteca.value.some((producto) => producto.id === gameId)
 const tipoEnCarrito = (gameId: string) => carrito.value.find((producto) => producto.id === gameId)?.tipo
 const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarProducto(game, tipo)
 </script>
@@ -58,6 +60,7 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
                         :key="game.id"
                         :game="game"
                         :in-cart="tieneProducto(game.id)"
+                        :acquired="estaAdquirido(game.id)"
                         :cart-type="tipoEnCarrito(game.id)"
                         details-label="VER MÁS🛒"
                         rent-label="Rentar (gratis)"
@@ -90,6 +93,7 @@ const agregarAlCarrito = (game: game, tipo: productoCarrito['tipo']) => agregarP
                     :key="game.id"
                     :game="game"
                     :in-cart="tieneProducto(game.id)"
+                    :acquired="estaAdquirido(game.id)"
                     :cart-type="tipoEnCarrito(game.id)"
                     details-label="VER MÁS 🛒"
                     rent-label="Rentar gratis"

@@ -6,6 +6,7 @@ import type { productoCarrito } from '@/composables/useCarrito.ts'
 defineProps<{
     game: game
     inCart: boolean
+    acquired: boolean
     cartType?: productoCarrito['tipo']
     detailsLabel: string
     rentLabel: string
@@ -32,18 +33,25 @@ const emit = defineEmits<{
             <button type="button" :aria-label="`Comprar ${game.name}`" @click="emit('details', game.id)">
                 {{ detailsLabel }}
             </button>
-            <div class="cart-actions">
-                <button type="button" :disabled="inCart" @click="emit('addToCart', 'compra')">
-                    Comprar ${{ game.price }}
-                </button>
-                <button type="button" :disabled="inCart" @click="emit('addToCart', 'renta')">
-                    {{ rentLabel }}
-                </button>
+            <div class="game-action-row">
+                <span v-if="acquired" class="game-acquired" aria-label="Juego adquirido">
+                    Adquirido
+                </span>
+                <div v-else class="cart-actions">
+                    <button type="button" :disabled="inCart" @click="emit('addToCart', 'compra')">
+                        Comprar ${{ game.price }}
+                    </button>
+                    <button type="button" :disabled="inCart" @click="emit('addToCart', 'renta')">
+                        {{ rentLabel }}
+                    </button>
+                </div>
             </div>
-            <p v-if="inCart" class="cart-item-status">
-                En carrito: {{ cartType === 'compra' ? 'Compra' : 'Renta' }}
-                <button type="button" @click="emit('remove', game.id)">Quitar</button>
-            </p>
+            <div class="game-status-row">
+                <p v-if="inCart" class="cart-item-status">
+                    En carrito: {{ cartType === 'compra' ? 'Compra' : 'Renta' }}
+                    <button type="button" @click="emit('remove', game.id)">Quitar</button>
+                </p>
+            </div>
         </div>
     </article>
 </template>
@@ -84,6 +92,8 @@ const emit = defineEmits<{
 .game-info {
     color: #fff;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .game-info h3 {
@@ -136,11 +146,48 @@ const emit = defineEmits<{
     background: #308ec49f;
 }
 
+.game-action-row {
+    display: flex;
+    height: 2.8rem;
+    align-items: stretch;
+}
+
+.game-acquired {
+    margin-top: 10%;
+    display: grid;
+    width: 100%;
+    place-items: center;
+    box-sizing: border-box;
+    border: 2px solid #d7e7ff;
+    border-radius: 6px;
+    background: #d6d6d6;
+    color: #263943;
+    font-weight: 700;
+    text-align: center;
+}
+
 .cart-actions {
     display: grid;
+    width: 100%;
+    height: 100%;
     grid-template-columns: 1fr 1fr;
     gap: 0.35rem;
-    margin-top: 0.5rem;
+    margin-top: 5%;
+}
+
+.game-action-row .cart-actions {
+    margin-top: 1;
+}
+
+.game-action-row .cart-actions button {
+    min-width: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.game-action-row .cart-actions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
 }
 
 .game-info .cart-actions button {
@@ -171,9 +218,18 @@ const emit = defineEmits<{
     align-items: center;
     justify-content: flex-end;
     gap: 0.35rem;
-    min-height: 42px;
-    margin-top: 5px;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     font-size: 0.9rem !important;
+}
+
+.game-status-row {
+    display: flex;
+    height: 60%;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: auto;
 }
 
 .game-info .cart-item-status button {
